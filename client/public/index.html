@@ -13,6 +13,11 @@
 <body id="page-top">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div class="font-light text-base text-gray-800 bg-white flex flex-col min-h-screen" id="root"></div>
+    <!-- Optional: Add loading state for better initial render -->
+    <script>
+        // Optional: Add a loading state
+        document.getElementById('root').innerHTML = '<div class="flex items-center justify-center h-screen"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div></div>';
+    </script>
 </body>
 
 </html>
