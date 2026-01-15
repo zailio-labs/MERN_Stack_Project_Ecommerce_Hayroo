@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useState, useEffect } from "react";
 import { CategoryContext } from "./index";
 import { createCategory, getAllCategory } from "./FetchApi";
 
@@ -28,11 +28,16 @@ const AddCategoryModal = (props) => {
     }
   };
 
-  if (fData.error || fData.success) {
-    setTimeout(() => {
-      setFdata({ ...fData, success: false, error: false });
-    }, 2000);
-  }
+  // Fixed: Moved setTimeout to useEffect to avoid setting state during render
+  useEffect(() => {
+    if (fData.error || fData.success) {
+      const timer = setTimeout(() => {
+        setFdata((prev) => ({ ...prev, success: false, error: false }));
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [fData.error, fData.success]);
 
   const submitForm = async (e) => {
     dispatch({ type: "loading", payload: true });
