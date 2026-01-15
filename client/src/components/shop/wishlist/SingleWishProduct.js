@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Changed from useHistory to useNavigate
 import { wishListProducts } from "./FetchApi";
 const apiURL = process.env.REACT_APP_API_URL;
 
 const Product = () => {
-  const history = useHistory();
+  const navigate = useNavigate(); // Changed from useHistory to useNavigate
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -54,7 +54,7 @@ const Product = () => {
               >
                 <div className="md:w-1/2 md:flex md:items-center">
                   <img
-                    onClick={(e) => history.push(`/products/${product._id}`)}
+                    onClick={(e) => navigate(`/products/${product._id}`)} // Changed from history.push to navigate
                     className="cursor-pointer md:h-20 md:w-20 object-cover object-center"
                     src={`${apiURL}/uploads/products/${product.pImages[0]}`}
                     alt="wishListproduct"
@@ -75,7 +75,7 @@ const Product = () => {
 
                   <div
                     style={{ background: "#303031" }}
-                    onClick={(e) => history.push(`/products/${product._id}`)}
+                    onClick={(e) => navigate(`/products/${product._id}`)} // Changed from history.push to navigate
                     className="inline-block px-4 py-2 text-white text-xs md:text-base text-center cursor-pointer hover:opacity-75"
                   >
                     View
