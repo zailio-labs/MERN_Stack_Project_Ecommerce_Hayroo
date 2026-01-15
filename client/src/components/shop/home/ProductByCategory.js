@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom"; // Changed from useHistory to useNavigate
 import Layout from "../layout";
 import { productByCategory } from "../../admin/products/FetchApi";
 
 const apiURL = process.env.REACT_APP_API_URL;
 
 const Submenu = ({ category }) => {
-  const history = useHistory();
+  const navigate = useNavigate(); // Changed from useHistory to useNavigate
   return (
     <Fragment>
       {/* Submenu Section */}
@@ -15,7 +15,7 @@ const Submenu = ({ category }) => {
           <div className="text-sm flex space-x-3">
             <span
               className="hover:text-yellow-700 cursor-pointer"
-              onClick={(e) => history.push("/")}
+              onClick={(e) => navigate("/")} // Changed from history.push to navigate
             >
               Shop
             </span>
@@ -45,7 +45,7 @@ const Submenu = ({ category }) => {
 };
 
 const AllProduct = ({ products }) => {
-  const history = useHistory();
+  const navigate = useNavigate(); // Changed from useHistory to useNavigate
   const category =
     products && products.length > 0 ? products[0].pCategory.cName : "";
   return (
@@ -58,7 +58,7 @@ const AllProduct = ({ products }) => {
               <Fragment key={index}>
                 <div className="relative col-span-1 m-2">
                   <img
-                    onClick={(e) => history.push(`/products/${item._id}`)}
+                    onClick={(e) => navigate(`/products/${item._id}`)} // Changed from history.push to navigate
                     className="w-full object-cover object-center cursor-pointer"
                     src={`${apiURL}/uploads/products/${item.pImages[0]}`}
                     alt=""
