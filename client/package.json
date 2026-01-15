@@ -11,7 +11,7 @@
     "braintree-web-drop-in-react": "^1.2.1",
     "moment": "^2.29.0",
     "notistack": "3.0.2",
-    "react": "^16.13.1",
+    "react": "^18.0.9",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
