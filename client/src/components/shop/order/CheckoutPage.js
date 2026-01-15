@@ -5,7 +5,9 @@ import { CheckoutComponent } from "./CheckoutProducts";
 const CheckoutPage = (props) => {
   return (
     <Fragment>
-      <Layout children={<CheckoutComponent />} />
+      <Layout>
+        <CheckoutComponent />
+      </Layout>
     </Fragment>
   );
 };
