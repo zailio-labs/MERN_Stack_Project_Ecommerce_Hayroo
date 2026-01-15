@@ -1,4 +1,4 @@
-import React, { Fragment, createContext, useReducer } from "react";
+import React, { Fragment, createContext, useReducer, useMemo } from "react";
 import Layout from "../layout";
 import {
   productDetailsState,
@@ -21,10 +21,16 @@ const ProductDetails = (props) => {
     productDetailsReducer,
     productDetailsState
   );
+  
+  // Optional: Memoize context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({ data, dispatch }), [data, dispatch]);
+
   return (
     <Fragment>
-      <ProductDetailsContext.Provider value={{ data, dispatch }}>
-        <Layout children={<DetailsComponent />} />
+      <ProductDetailsContext.Provider value={contextValue}>
+        <Layout>
+          <DetailsComponent />
+        </Layout>
       </ProductDetailsContext.Provider>
     </Fragment>
   );
