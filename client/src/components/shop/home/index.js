@@ -1,4 +1,4 @@
-import React, { Fragment, createContext, useReducer } from "react";
+import React, { Fragment, createContext, useReducer, useMemo } from "react";
 import Layout from "../layout";
 import Slider from "./Slider";
 import ProductCategory from "./ProductCategory";
@@ -25,10 +25,16 @@ const HomeComponent = () => {
 
 const Home = (props) => {
   const [data, dispatch] = useReducer(homeReducer, homeState);
+  
+  // Optional: Memoize context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({ data, dispatch }), [data, dispatch]);
+
   return (
     <Fragment>
-      <HomeContext.Provider value={{ data, dispatch }}>
-        <Layout children={<HomeComponent />} />
+      <HomeContext.Provider value={contextValue}>
+        <Layout>
+          <HomeComponent />
+        </Layout>
       </HomeContext.Provider>
     </Fragment>
   );
