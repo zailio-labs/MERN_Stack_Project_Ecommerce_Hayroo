@@ -1,4 +1,4 @@
-import React, { Fragment, createContext, useReducer } from "react";
+import React, { Fragment, createContext, useReducer, useMemo } from "react";
 import AdminLayout from "../layout";
 import ProductMenu from "./ProductMenu";
 import ProductTable from "./ProductTable";
@@ -19,11 +19,16 @@ const ProductComponent = () => {
 const Products = (props) => {
   /* To use useReducer make sure that reducer is the first arg */
   const [data, dispatch] = useReducer(productReducer, productState);
+  
+  // Optional: Memoize context value to prevent unnecessary re-renders
+  const contextValue = useMemo(() => ({ data, dispatch }), [data, dispatch]);
 
   return (
     <Fragment>
-      <ProductContext.Provider value={{ data, dispatch }}>
-        <AdminLayout children={<ProductComponent />} />
+      <ProductContext.Provider value={contextValue}>
+        <AdminLayout>
+          <ProductComponent />
+        </AdminLayout>
       </ProductContext.Provider>
     </Fragment>
   );
