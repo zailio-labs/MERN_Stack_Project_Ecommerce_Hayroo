@@ -18,10 +18,16 @@ const OrderComponent = () => {
 
 const Orders = (props) => {
   const [data, dispatch] = useReducer(orderReducer, orderState);
+  
+  // Optional: Memoize context value
+  const contextValue = React.useMemo(() => ({ data, dispatch }), [data, dispatch]);
+  
   return (
     <Fragment>
-      <OrderContext.Provider value={{ data, dispatch }}>
-        <AdminLayout children={<OrderComponent />} />
+      <OrderContext.Provider value={contextValue}>
+        <AdminLayout>
+          <OrderComponent />
+        </AdminLayout>
       </OrderContext.Provider>
     </Fragment>
   );
