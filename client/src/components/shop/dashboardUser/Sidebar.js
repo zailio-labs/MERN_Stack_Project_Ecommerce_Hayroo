@@ -1,12 +1,12 @@
 import React, { Fragment, useContext } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "./Action";
 import { DashboardUserContext } from "./Layout";
 
 const Sidebar = (props) => {
   const { data } = useContext(DashboardUserContext);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   return (
@@ -39,7 +39,7 @@ const Sidebar = (props) => {
         </div>
         <div className="shadow hidden md:block w-full flex flex-col">
           <div
-            onClick={(e) => history.push("/user/orders")}
+            onClick={(e) => navigate("/user/orders")}
             className={`${
               location.pathname === "/user/orders"
                 ? "border-r-4 border-yellow-700 bg-gray-200"
@@ -50,7 +50,7 @@ const Sidebar = (props) => {
           </div>
           <hr />
           <div
-            onClick={(e) => history.push("/user/profile")}
+            onClick={(e) => navigate("/user/profile")}
             className={`${
               location.pathname === "/user/profile"
                 ? "border-r-4 border-yellow-700 bg-gray-200"
@@ -61,14 +61,14 @@ const Sidebar = (props) => {
           </div>
           <hr />
           <div
-            onClick={(e) => history.push("/wish-list")}
+            onClick={(e) => navigate("/wish-list")}
             className={` px-4 py-4 hover:bg-gray-200 cursor-pointer`}
           >
             My Wishlist
           </div>
           <hr />
           <div
-            onClick={(e) => history.push("/user/setting")}
+            onClick={(e) => navigate("/user/setting")}
             className={`${
               location.pathname === "/user/setting"
                 ? "border-r-4 border-yellow-700 bg-gray-200"
