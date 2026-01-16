@@ -245,5 +245,6 @@ class BrainTreeController {
   }
 }
 
+// ==== FIX: ADD THESE TWO LINES ====
 const brainTreeController = new BrainTreeController();
 module.exports = brainTreeController;
