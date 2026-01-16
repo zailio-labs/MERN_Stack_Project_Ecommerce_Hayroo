@@ -16,23 +16,23 @@ exports.validateEmail = function (mail) {
 };
 
 exports.emailCheckInDatabase = async function (email) {
-  let user = await userModel.findOne({ email: email });
-  user.exec((err, data) => {
-    if (!data) {
-      return false;
-    } else {
-      return true;
-    }
-  });
+  try {
+    // FIX: In Mongoose 8.x, findOne() returns a promise directly
+    const user = await userModel.findOne({ email: email });
+    return !!user; // Return true if user exists, false if null
+  } catch (err) {
+    console.error("Error checking email:", err);
+    return false; // Return false on error
+  }
 };
 
 exports.phoneNumberCheckInDatabase = async function (phoneNumber) {
-  let user = await userModel.findOne({ phoneNumber: phoneNumber });
-  user.exec((err, data) => {
-    if (data) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  try {
+    // FIX: In Mongoose 8.x, findOne() returns a promise directly  
+    const user = await userModel.findOne({ phoneNumber: phoneNumber });
+    return !!user; // Return true if user exists, false if null
+  } catch (err) {
+    console.error("Error checking phone number:", err);
+    return false; // Return false on error
+  }
 };
