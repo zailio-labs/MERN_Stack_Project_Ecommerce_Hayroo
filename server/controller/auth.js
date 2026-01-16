@@ -4,16 +4,37 @@ const userModel = require("../models/users");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/keys");
 
-// ========== ADD THIS SECTION ==========
-// Admin credentials configuration
+// ========== ADMIN CREDENTIALS CONFIGURATION ==========
 const ADMIN_CREDENTIALS = {
   email: "admin@hayroo.com", // Change this to your desired admin email
   password: "Admin@123",      // Change this to your desired admin password
 };
-// =====================================
+// ====================================================
 
 class Auth {
-  // ... existing isAdmin and allUser methods ...
+  async isAdmin(req, res) {
+    let { loggedInUserId } = req.body;
+    try {
+      let loggedInUserRole = await userModel.findById(loggedInUserId);
+      if (!loggedInUserRole) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.json({ role: loggedInUserRole.userRole });
+    } catch (error) {
+      console.error("isAdmin error:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
+
+  async allUser(req, res) {
+    try {
+      let allUser = await userModel.find({});
+      res.json({ users: allUser });
+    } catch (error) {
+      console.error("allUser error:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
 
   /* User Registration/Signup controller  */
   async postSignup(req, res) {
@@ -87,18 +108,18 @@ class Auth {
       // Format name
       const formattedName = toTitleCase(name);
       
-      // ========== MODIFIED: Determine user role ==========
-      // Check if this is the admin email
-      const isAdminEmail = email.toLowerCase().trim() === ADMIN_CREDENTIALS.email.toLowerCase();
+      // ========== Determine user role based on email ==========
+      const emailLower = email.toLowerCase().trim();
+      const isAdminEmail = emailLower === ADMIN_CREDENTIALS.email.toLowerCase();
       const userRole = isAdminEmail ? 1 : 0; // 1 = admin, 0 = customer
-      // ==================================================
+      // =======================================================
       
       // Create new user
       const newUser = new userModel({
         name: formattedName,
-        email: email.toLowerCase().trim(),
+        email: emailLower,
         password: hashedPassword,
-        userRole: userRole, // Dynamic role based on email
+        userRole: userRole,
       });
 
       // Save user
@@ -132,12 +153,11 @@ class Auth {
     }
 
     try {
-      // ========== MODIFIED: Check for hardcoded admin first ==========
       const emailLower = email.toLowerCase().trim();
       
-      // Check if this is the admin trying to login
+      // ========== Check for hardcoded admin credentials ==========
       if (emailLower === ADMIN_CREDENTIALS.email.toLowerCase()) {
-        // Verify admin password (plain text comparison)
+        // Verify admin password (plain text comparison for hardcoded admin)
         if (password === ADMIN_CREDENTIALS.password) {
           // Check if admin user exists in database
           let adminUser = await userModel.findOne({ email: emailLower });
@@ -152,10 +172,12 @@ class Auth {
               userRole: 1, // Admin role
             });
             await adminUser.save();
+            console.log("✅ Admin user created successfully");
           } else if (adminUser.userRole !== 1) {
             // If user exists but is not admin, upgrade to admin
             adminUser.userRole = 1;
             await adminUser.save();
+            console.log("✅ User upgraded to admin");
           }
 
           // Create JWT token for admin
@@ -173,6 +195,7 @@ class Auth {
           const userData = adminUser.toObject();
           delete userData.password;
 
+          console.log("✅ Admin login successful");
           return res.json({
             success: "Admin login successful",
             token: token,
