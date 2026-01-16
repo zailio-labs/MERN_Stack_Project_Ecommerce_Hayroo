@@ -32,9 +32,9 @@ const ProductCategory = (props) => {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}  {/* Fixed: changed from strokeWidth="2" to strokeWidth={2} */}
+              strokeWidth={2}
               d="M19 9l-7 7-7-7"
-            ></path>
+            />
           </svg>
         </div>
         <div className="flex space-x-2">
@@ -61,9 +61,9 @@ const ProductCategory = (props) => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}  {/* Fixed: changed from strokeWidth="2" to strokeWidth={2} */}
+                  strokeWidth={2}
                   d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-                ></path>
+                />
               </svg>
             </span>
           </div>
@@ -91,9 +91,9 @@ const ProductCategory = (props) => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}  {/* Fixed: changed from strokeWidth="2" to strokeWidth={2} */}
+                  strokeWidth={2}
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                ></path>
+                />
               </svg>
             </span>
           </div>
